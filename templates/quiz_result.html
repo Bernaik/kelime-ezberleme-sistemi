@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quiz Sonucu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="/">Ana Sayfa</a>
+        <a href="/quiz">Quiz</a>
+        <a href="/wordle">Wordle</a>
+        <a href="/report">Analiz</a>
+    </div>
+
+    <div class="card">
+
+        {% if success %}
+
+        <h1 style="color:#ff4fa3;">Başarılı 🎉</h1>
+
+        {% else %}
+
+        <h1 style="color:#ff4fa3;">Tekrar Dene 💔</h1>
+
+        {% endif %}
+
+        <p>{{ message }}</p>
+        <div class="progress-box">
+
+            <p>6 Tekrar İlerlemesi</p>
+
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: {{ progress }}%;">
+                </div>
+            </div>
+
+            <div class="badge">
+                %{{ progress|round|int }}
+            </div>
+
+        </div>
+
+        <br>
+
+        <a class="button-link" href="/quiz">
+            Yeni Soru
+        </a>
+
+    </div>
+
+</body>
+
+</html>

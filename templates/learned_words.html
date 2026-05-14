@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Öğrenilen Kelimeler</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="/">Ana Sayfa</a>
+        <a href="/register">Kayıt Ol</a>
+        <a href="/login">Giriş Yap</a>
+        <a href="/add-word">Kelime Ekle</a>
+        <a href="/words">Kelimeler</a>
+        <a href="/quiz">Quiz</a>
+        <a href="/wordle">Wordle</a>
+        <a href="/learned-words">Öğrenilenler</a>
+        <a href="/report">Analiz</a>
+        <a href="/settings">Ayarlar</a>
+    </div>
+
+    <h1>Öğrenilen Kelimeler</h1>
+
+    {% if learned_words %}
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>İngilizce</th>
+            <th>Türkçe</th>
+            <th>Örnek Cümle</th>
+        </tr>
+
+        {% for word in learned_words %}
+
+        <tr>
+            <td>{{ word[0] }}</td>
+            <td>
+                {{ word[1] }}
+
+                <br>
+
+                <span class="badge">
+                    MASTERED
+                </span>
+            </td>
+            <td>{{ word[2] }}</td>
+            <td>{{ word[3] }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+    {% else %}
+
+    <div class="card">
+
+        <p>
+            Henüz öğrenilmiş kelime yok 😄
+        </p>
+
+        <a class="button-link" href="/quiz">
+            Quiz Çöz
+        </a>
+
+    </div>
+
+    {% endif %}
+
+</body>
+
+</html>

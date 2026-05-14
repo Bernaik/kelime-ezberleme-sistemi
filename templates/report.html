@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Analiz Raporu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="/">Ana Sayfa</a>
+        <a href="/register">Kayıt Ol</a>
+        <a href="/login">Giriş Yap</a>
+        <a href="/add-word">Kelime Ekle</a>
+        <a href="/words">Kelimeler</a>
+        <a href="/quiz">Quiz</a>
+        <a href="/report">Analiz</a>
+        <a href="/settings">Ayarlar</a>
+    </div>
+
+    <h1>Analiz Raporu</h1>
+
+    <div class="card">
+        <p><strong>Toplam Kelime Sayısı:</strong> {{ total_words }}</p>
+        <p><strong>Öğrenilen Kelime Sayısı:</strong> {{ learned_words }}</p>
+        <p><strong>Öğrenilmeyen Kelime Sayısı:</strong> {{ not_learned_words }}</p>
+        <p><strong>Başarı Yüzdesi:</strong> %{{ success_rate }}</p>
+
+        <br>
+
+        <button onclick="window.print()">Raporu Yazdır</button>
+    </div>
+    <div class="footer">
+        6 Sefer Tekrar Prensibi ile Kelime Ezberleme Sistemi
+        <small>Version 1.0 | Yazılım Yapımı Dönem Projesi</small>
+    </div>
+
+</body>
+
+</html>

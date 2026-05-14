@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Quiz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="/">Ana Sayfa</a>
+        <a href="/register">Kayıt Ol</a>
+        <a href="/login">Giriş Yap</a>
+        <a href="/add-word">Kelime Ekle</a>
+        <a href="/words">Kelimeler</a>
+        <a href="/quiz">Quiz</a>
+        <a href="/report">Analiz</a>
+        <a href="/settings">Ayarlar</a>
+    </div>
+
+    <div class="card">
+
+        <h1>Kelime Quiz</h1>
+
+        {% if word %}
+
+        <p>Bu İngilizce kelimenin Türkçesi nedir?</p>
+
+        <h2>{{ word[1] }}</h2>
+
+        <form method="POST">
+
+            <input type="hidden" name="word_id" value="{{ word[0] }}">
+
+            <input type="text" name="answer" placeholder="Türkçe cevabı yaz" required>
+
+            <br><br>
+
+            <button type="submit">Cevapla</button>
+
+        </form>
+
+        {% else %}
+
+        <p>Tüm kelimeler öğrenildi 🎉</p>
+
+        {% endif %}
+
+    </div>
+    <div class="footer">
+        6 Sefer Tekrar Prensibi ile Kelime Ezberleme Sistemi
+        <small>Version 1.0 | Yazılım Yapımı Dönem Projesi</small>
+    </div>
+
+</body>
+
+</html>

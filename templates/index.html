@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Kelime Ezberleme</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="/">Ana Sayfa</a>
+        <a href="/register">Kayıt Ol</a>
+        <a href="/login">Giriş Yap</a>
+        <a href="/add-word">Kelime Ekle</a>
+        <a href="/words">Kelimeler</a>
+        <a href="/quiz">Quiz</a>
+        <a href="/wordle">Wordle</a>
+        <a href="/word-chain">Word Chain</a>
+        <a href="/learned-words">Öğrenilenler</a>
+        <a href="/report">Analiz</a>
+        <a href="/settings">Ayarlar</a>
+    </div>
+
+    <div class="card">
+        <h1>Kelime Ezberleme Sistemine Hoşgeldiniz</h1>
+
+        <p>
+            İngilizce kelimeleri 6 tekrar prensibi ile öğrenmek için hazırlanmış modern web uygulaması.
+        </p>
+
+        <a class="button-link" href="/add-word">Kelime Ekle</a>
+        <a class="button-link" href="/quiz">Quiz Başlat</a>
+        <a class="button-link" href="/wordle">Wordle Bulmaca</a>
+        <a class="button-link" href="/word-chain">Word Chain Hikaye</a>
+        <a class="button-link" href="/report">Analiz Raporu</a>
+    </div>
+
+    <div class="feature-grid">
+
+        <div class="feature-card">
+            <h2>6 Tekrar Sistemi</h2>
+            <p>Bir kelime 6 kez doğru bilinince öğrenilmiş kabul edilir.</p>
+        </div>
+
+        <div class="feature-card">
+            <h2>Quiz Modülü</h2>
+            <p>Eklenen kelimeler üzerinden otomatik soru oluşturur.</p>
+        </div>
+
+        <div class="feature-card">
+            <h2>Wordle Bulmaca</h2>
+            <p>Öğrenilen kelimelerle mini kelime tahmin oyunu sunar.</p>
+        </div>
+
+        <div class="feature-card">
+            <h2>Analiz Raporu</h2>
+            <p>Toplam ve öğrenilen kelimeleri yüzdelik olarak gösterir.</p>
+        </div>
+
+    </div>
+    <div class="footer">
+        6 Sefer Tekrar Prensibi ile Kelime Ezberleme Sistemi
+        <small>Version 1.0 | Yazılım Yapımı Dönem Projesi</small>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Word Chain</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class="navbar">
+        <a href="/">Ana Sayfa</a>
+        <a href="/register">Kayıt Ol</a>
+        <a href="/login">Giriş Yap</a>
+        <a href="/add-word">Kelime Ekle</a>
+        <a href="/words">Kelimeler</a>
+        <a href="/quiz">Quiz</a>
+        <a href="/wordle">Wordle</a>
+        <a href="/word-chain">Word Chain</a>
+        <a href="/learned-words">Öğrenilenler</a>
+        <a href="/report">Analiz</a>
+        <a href="/settings">Ayarlar</a>
+    </div>
+
+    <h1>Word Chain Hikaye Oluşturucu</h1>
+
+    <form method="POST">
+
+        <input type="text" name="word1" placeholder="1. Kelime" required>
+        <br><br>
+
+        <input type="text" name="word2" placeholder="2. Kelime" required>
+        <br><br>
+
+        <input type="text" name="word3" placeholder="3. Kelime" required>
+        <br><br>
+
+        <input type="text" name="word4" placeholder="4. Kelime" required>
+        <br><br>
+
+        <input type="text" name="word5" placeholder="5. Kelime" required>
+        <br><br>
+
+        <button type="submit">Hikaye Oluştur</button>
+
+    </form>
+
+    {% if story %}
+
+    <div class="card story-card">
+        <h2>Generated Story</h2>
+        <p>{{ story }}</p>
+
+        <h2>Short Summary</h2>
+        <p>{{ summary }}</p>
+
+        <span class="badge">AI GENERATED STORY</span>
+    </div>
+
+    {% endif %}
+    <div class="footer">
+        6 Sefer Tekrar Prensibi ile Kelime Ezberleme Sistemi
+        <small>Version 1.0 | Yazılım Yapımı Dönem Projesi</small>
+    </div>
+
+</body>
+
+</html>
