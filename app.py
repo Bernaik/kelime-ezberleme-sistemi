@@ -28,13 +28,51 @@ def register():
         connection.commit()
         connection.close()
 
-        return "Kayıt başarılı!"
+        return render_template(
+            "message.html",
+            title="Kayıt Başarılı 🎉",
+            message="Hesabın başarıyla oluşturuldu. Şimdi giriş yapabilirsin.",
+            button_text="Giriş Yap",
+            button_link="/login",
+        )
 
     return render_template("register.html")
 
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+
+        connection = sqlite3.connect("database.db")
+        cursor = connection.cursor()
+
+        cursor.execute(
+            "SELECT * FROM users WHERE username=? AND password=?", (username, password)
+        )
+
+        user = cursor.fetchone()
+        connection.close()
+
+        if user:
+            return render_template(
+                "message.html",
+                title="Giriş Başarılı 🎉",
+                message="Sisteme başarıyla giriş yaptın.",
+                button_text="Quiz'e Git",
+                button_link="/quiz",
+            )
+        else:
+            return render_template(
+                "message.html",
+                title="Hata ❌",
+                message="Kullanıcı adı veya şifre yanlış.",
+                button_text="Tekrar Dene",
+                button_link="/login",
+            )
+
+    return render_template("login.html")
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
@@ -75,7 +113,13 @@ def add_word():
         connection.commit()
         connection.close()
 
-        return "Kelime eklendi!"
+        return render_template(
+            "message.html",
+            title="Kelime Eklendi ✅",
+            message="Yeni kelime başarıyla sisteme kaydedildi.",
+            button_text="Yeni Kelime Ekle",
+            button_link="/add-word",
+        )
 
     return render_template("add_word.html")
 
@@ -200,7 +244,13 @@ def settings():
 
     if request.method == "POST":
         question_count = int(request.form["question_count"])
-        return f"Soru sayısı güncellendi: {question_count}"
+        return render_template(
+            "message.html",
+            title="Ayarlar Güncellendi ⚙️",
+            message=f"Soru sayısı başarıyla güncellendi: {question_count}",
+            button_text="Ayarlara Dön",
+            button_link="/settings",
+        )
 
     return render_template("settings.html", question_count=question_count)
 
@@ -288,6 +338,48 @@ def word_chain():
         )
 
     return render_template("word_chain.html", story=story, summary=summary)
+
+
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+    if request.method == "POST":
+        username = request.form["username"]
+        new_password = request.form["new_password"]
+
+        connection = sqlite3.connect("database.db")
+        cursor = connection.cursor()
+
+        cursor.execute("SELECT * FROM users WHERE username=?", (username,))
+
+        user = cursor.fetchone()
+
+        if user:
+            cursor.execute(
+                "UPDATE users SET password=? WHERE username=?", (new_password, username)
+            )
+
+            connection.commit()
+            connection.close()
+
+            return render_template(
+                "message.html",
+                title="Şifre Güncellendi 🔐",
+                message="Şifren başarıyla değiştirildi. Yeni şifrenle giriş yapabilirsin.",
+                button_text="Giriş Yap",
+                button_link="/login",
+            )
+
+        connection.close()
+
+        return render_template(
+            "message.html",
+            title="Kullanıcı Bulunamadı ❌",
+            message="Bu kullanıcı adına ait bir hesap bulunamadı.",
+            button_text="Tekrar Dene",
+            button_link="/forgot-password",
+        )
+
+    return render_template("forgot_password.html")
 
 
 if __name__ == "__main__":

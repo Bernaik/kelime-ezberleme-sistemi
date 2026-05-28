@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Giriş Yap</title>
+    <title>{{ title }}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-
 <body>
 
     <div class="navbar">
@@ -15,28 +13,21 @@
         <a href="/add-word">Kelime Ekle</a>
         <a href="/words">Kelimeler</a>
         <a href="/quiz">Quiz</a>
+        <a href="/wordle">Wordle</a>
+        <a href="/word-chain">Word Chain</a>
+        <a href="/learned-words">Öğrenilenler</a>
         <a href="/report">Analiz</a>
         <a href="/settings">Ayarlar</a>
     </div>
 
-    <h1>Giriş Yap</h1>
+    <div class="card">
+        <h1>{{ title }}</h1>
+        <p>{{ message }}</p>
 
-    <form method="POST">
-
-        <input type="text" name="username" placeholder="Kullanıcı Adı" required>
-
-        <br><br>
-
-        <input type="password" name="password" placeholder="Şifre" required>
-
-        <br><br>
-
-        <button type="submit">Giriş Yap</button>
-
-    </form>
-    <br>
-    <a class="button-link" href="/forgot-password">Şifremi Unuttum</a>
+        <a class="button-link" href="{{ button_link }}">
+            {{ button_text }}
+        </a>
+    </div>
 
 </body>
-
 </html>
