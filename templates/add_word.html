@@ -15,32 +15,34 @@
         <a href="/add-word">Kelime Ekle</a>
         <a href="/words">Kelimeler</a>
         <a href="/quiz">Quiz</a>
+        <a href="/wordle">Wordle</a>
+        <a href="/word-chain">Word Chain</a>
+        <a href="/learned-words">Öğrenilenler</a>
         <a href="/report">Analiz</a>
         <a href="/settings">Ayarlar</a>
     </div>
 
-    <h1>Kelime Ekle</h1>
+    <div class="card">
+        <h1>Yeni Kelime Ekle</h1>
 
-    <form method="POST" enctype="multipart/form-data"></form>
+        <form method="POST" enctype="multipart/form-data">
 
-    <input type="text" name="english" placeholder="İngilizce Kelime" required>
+            <input type="text" name="english" placeholder="İngilizce Kelime" required>
+            <br><br>
 
-    <br><br>
+            <input type="text" name="turkish" placeholder="Türkçe Karşılığı" required>
+            <br><br>
 
-    <input type="text" name="turkish" placeholder="Türkçe Karşılığı" required>
+            <input type="text" name="sample" placeholder="Örnek Cümle" required>
+            <br><br>
 
-    <br><br>
+            <input type="file" name="picture" accept="image/*">
+            <br><br>
 
-    <input type="text" name="sample" placeholder="Örnek Cümle" required>
-    <br><br>
+            <button type="submit">Kelime Ekle</button>
 
-    <input type="file" name="picture">
-
-    <br><br>
-
-    <button type="submit">Kelime Ekle</button>
-
-    </form>
+        </form>
+    </div>
 
 </body>
 

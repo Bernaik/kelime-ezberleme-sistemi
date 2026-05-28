@@ -35,6 +35,7 @@
             <th>İngilizce</th>
             <th>Türkçe</th>
             <th>Örnek Cümle</th>
+            <th>Resim</th>
             <th>Tekrar Sayısı</th>
             <th>Durum</th>
         </tr>
@@ -46,15 +47,29 @@
             <td>{{ word[1] }}</td>
             <td>{{ word[2] }}</td>
             <td>{{ word[3] }}</td>
-            <td>{{ word[4] }}</td>
 
             <td>
-                {% if word[5] == 1 %}
+
+                {% if word[4] %}
+
+                <img src="{{ url_for('static', filename=word[4]) }}" width="80" style="border-radius:10px;">
+
+                {% else %}
+
+                Resim Yok
+
+                {% endif %}
+
+            </td>
+
+            <td>
+                {% if word[6] == 1 %}
                 <span class="badge">Öğrenildi</span>
                 {% else %}
                 <span class="badge">Devam Ediyor</span>
                 {% endif %}
             </td>
+
         </tr>
 
         {% endfor %}
