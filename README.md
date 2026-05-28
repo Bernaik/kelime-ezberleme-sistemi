@@ -37,6 +37,11 @@ Yanlış cevap verilirse tekrar sayısı sıfırlanır.
 
 ## Proje Kurulumu
 
+## Geliştiriciler (Contributors)
+Bu proje iki kişilik bir ekip tarafından ortaklaşa geliştirilmiştir:
+- Nimet Sude Aksoy
+- Berna İşlek
+
 ```bash
 python database.py
 python app.py
