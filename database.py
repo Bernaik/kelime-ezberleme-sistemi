@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS words(
     english TEXT,
     turkish TEXT,
     sample TEXT,
+    picture TEXT,
     correct_count INTEGER DEFAULT 0,
     learned INTEGER DEFAULT 0
 )

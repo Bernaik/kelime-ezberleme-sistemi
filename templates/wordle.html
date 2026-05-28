@@ -2,8 +2,67 @@
 <html>
 
 <head>
-    <title>Wordle Bulmaca</title>
+    <title>Wordle</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+        .wordle-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        .wordle-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .wordle-box {
+            width: 58px;
+            height: 58px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .correct {
+            background: #3aaa35;
+        }
+
+        .wrong-place {
+            background: #c9a400;
+        }
+
+        .wrong {
+            background: #6b7280;
+        }
+
+        .empty {
+            background: white;
+            color: #ff4fa3;
+        }
+
+        .wordle-info {
+            background: #ffe3f1;
+            color: #ff4fa3;
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 650px;
+            font-weight: bold;
+        }
+
+        .wordle-form {
+            margin-top: 25px;
+        }
+    </style>
 </head>
 
 <body>
@@ -16,72 +75,57 @@
         <a href="/words">Kelimeler</a>
         <a href="/quiz">Quiz</a>
         <a href="/wordle">Wordle</a>
+        <a href="/word-chain">Word Chain</a>
+        <a href="/learned-words">Öğrenilenler</a>
         <a href="/report">Analiz</a>
         <a href="/settings">Ayarlar</a>
     </div>
 
     <div class="card">
+        <h1>Wordle Bulmaca</h1>
 
-        <h1>Kelime Bulmaca</h1>
+        <div class="wordle-info">
+            Öğrenilen kelimelerden seçilen 5 harfli kelimeyi 6 denemede bulmaya çalış.
+            <br>
+            Yeşil: doğru yer | Sarı: yanlış yer | Gri: harf yok
+        </div>
 
-        <p class="small-text">
-            Öğrendiğin İngilizce kelimeleri tahmin ederek tekrar et.
-        </p>
+        <div class="wordle-grid">
 
-        {% if word %}
+            {% for guess in guesses %}
+            <div class="wordle-row">
+                {% for i in range(5) %}
+                <div class="wordle-box {{ guess.result[i] }}">
+                    {{ guess.word[i] }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
 
-        <p>
-            İpucu: Kelime {{ word|length }} harfli.
-        </p>
-
-        <form method="POST">
-
-            <input type="hidden" name="target_word" value="{{ word }}">
-
-            <input type="text" name="guess" placeholder="Tahminini yaz" required>
-
-            <br><br>
-
-            <button type="submit">Tahmin Et</button>
-
-        </form>
-
-        {% if guess %}
-
-        <h2>Son Tahmin: {{ guess }}</h2>
-
-        <div class="wordle-row">
-
-            {% for letter in guess %}
-            <span class="letter-box {{ result[loop.index0] }}">
-                {{ letter.upper() }}
-            </span>
+            {% for r in range(6 - guesses|length) %}
+            <div class="wordle-row">
+                {% for i in range(5) %}
+                <div class="wordle-box empty"></div>
+                {% endfor %}
+            </div>
             {% endfor %}
 
         </div>
 
-        {% if is_win %}
-        <p class="success-text">Tebrikler! Kelimeyi doğru bildin 🎉</p>
-        {% else %}
-        <p class="small-text">Yeşil: doğru yer, Sarı: kelimede var, Gri: yok.</p>
+        {% if message %}
+        <h3>{{ message }}</h3>
         {% endif %}
 
+        {% if not game_over %}
+        <form method="POST" class="wordle-form">
+            <input type="text" name="guess" maxlength="5" placeholder="5 harfli kelime" required>
+            <br><br>
+            <button type="submit">Tahmin Et</button>
+        </form>
         {% endif %}
 
-        {% else %}
-
-        <h2>🎮 Wordle İçin Kelime Gerekiyor</h2>
-
-        <p>
-            Önce sisteme birkaç kelime eklemelisin.
-        </p>
-
-        {% endif %}
-
-    </div>
-    <div class="footer">
-        6 Sefer Tekrar Prensibi ile Kelime Ezberleme Sistemi
-        <small>Version 1.0 | Yazılım Yapımı Dönem Projesi</small>
+        <br>
+        <a class="button-link" href="/wordle?reset=1">Yeni Oyun</a>
     </div>
 
 </body>

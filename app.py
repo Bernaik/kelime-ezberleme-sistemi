@@ -1,8 +1,24 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session
+import os
+from werkzeug.utils import secure_filename
 import sqlite3
 import random
 
 app = Flask(__name__)
+UPLOAD_FOLDER = "static/uploads"
+ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "gif"}
+
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+
+def allowed_file(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONSf
+
+
+app.secret_key = "kelime-ezberleme-secret"
 
 question_count = 10
 
@@ -97,17 +113,33 @@ def login():
 
 @app.route("/add-word", methods=["GET", "POST"])
 def add_word():
+
     if request.method == "POST":
+
         english = request.form["english"]
         turkish = request.form["turkish"]
         sample = request.form["sample"]
+
+        picture_path = ""
+
+        if "picture" in request.files:
+
+            file = request.files["picture"]
+
+            if file and file.filename != "" and allowed_file(file.filename):
+
+                filename = secure_filename(file.filename)
+
+                file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
+
+                picture_path = f"uploads/{filename}"
 
         connection = sqlite3.connect("database.db")
         cursor = connection.cursor()
 
         cursor.execute(
-            "INSERT INTO words(english,turkish,sample) VALUES(?,?,?)",
-            (english, turkish, sample),
+            "INSERT INTO words(english,turkish,sample,picture) VALUES(?,?,?,?)",
+            (english, turkish, sample, picture_path),
         )
 
         connection.commit()
@@ -257,44 +289,74 @@ def settings():
 
 @app.route("/wordle", methods=["GET", "POST"])
 def wordle():
+    import sqlite3
+    import random
+
     connection = sqlite3.connect("database.db")
     cursor = connection.cursor()
 
     cursor.execute("SELECT english FROM words WHERE learned=1")
-    word_list = cursor.fetchall()
+    learned_words = cursor.fetchall()
 
-    if len(word_list) == 0:
-        cursor.execute("SELECT english FROM words")
-        word_list = cursor.fetchall()
+    if learned_words:
+        word_list = [w[0].upper() for w in learned_words if len(w[0]) == 5]
+    else:
+        word_list = ["REBUS", "APPLE", "BRAIN", "NIGHT", "TIGER", "NOBLE"]
 
     connection.close()
 
-    if len(word_list) == 0:
-        return render_template("wordle.html", word=None)
+    if "wordle_answer" not in session:
+        session["wordle_answer"] = random.choice(word_list)
+        session["wordle_guesses"] = []
+
+    answer = session["wordle_answer"]
+    message = ""
+    game_over = False
 
     if request.method == "POST":
-        target_word = request.form["target_word"].lower()
-        guess = request.form["guess"].lower()
+        guess = request.form["guess"].upper()
 
-        result = []
+        if len(guess) != 5:
+            message = "Lütfen 5 harfli bir kelime gir."
+        else:
+            result = []
 
-        for i in range(len(guess)):
-            if i < len(target_word) and guess[i] == target_word[i]:
-                result.append("correct")
-            elif guess[i] in target_word:
-                result.append("present")
-            else:
-                result.append("wrong")
+            for i in range(5):
+                if guess[i] == answer[i]:
+                    result.append("correct")
+                elif guess[i] in answer:
+                    result.append("wrong-place")
+                else:
+                    result.append("wrong")
 
-        is_win = guess == target_word
+            guesses = session["wordle_guesses"]
+            guesses.append({"word": guess, "result": result})
+            session["wordle_guesses"] = guesses
 
+            if guess == answer:
+                message = "Tebrikler! Kelimeyi buldun 🎉"
+                game_over = True
+            elif len(guesses) >= 6:
+                message = f"Hakkın bitti. Doğru kelime: {answer}"
+                game_over = True
+
+    if request.args.get("reset") == "1":
+        session.pop("wordle_answer", None)
+        session.pop("wordle_guesses", None)
         return render_template(
-            "wordle.html", word=target_word, guess=guess, result=result, is_win=is_win
+            "message.html",
+            title="Wordle Yenilendi",
+            message="Yeni oyun başlatıldı.",
+            button_text="Wordle'a Dön",
+            button_link="/wordle",
         )
 
-    selected_word = random.choice(word_list)[0].lower()
-
-    return render_template("wordle.html", word=selected_word)
+    return render_template(
+        "wordle.html",
+        guesses=session.get("wordle_guesses", []),
+        message=message,
+        game_over=game_over,
+    )
 
 
 @app.route("/learned-words")

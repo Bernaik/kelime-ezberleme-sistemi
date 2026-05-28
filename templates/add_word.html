@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Kelime Ekle</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
+
 <body>
 
     <div class="navbar">
@@ -19,32 +21,27 @@
 
     <h1>Kelime Ekle</h1>
 
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data"></form>
 
-        <input type="text"
-               name="english"
-               placeholder="İngilizce Kelime"
-               required>
+    <input type="text" name="english" placeholder="İngilizce Kelime" required>
 
-        <br><br>
+    <br><br>
 
-        <input type="text"
-               name="turkish"
-               placeholder="Türkçe Karşılığı"
-               required>
+    <input type="text" name="turkish" placeholder="Türkçe Karşılığı" required>
 
-        <br><br>
+    <br><br>
 
-        <input type="text"
-               name="sample"
-               placeholder="Örnek Cümle"
-               required>
+    <input type="text" name="sample" placeholder="Örnek Cümle" required>
+    <br><br>
 
-        <br><br>
+    <input type="file" name="picture">
 
-        <button type="submit">Kelime Ekle</button>
+    <br><br>
+
+    <button type="submit">Kelime Ekle</button>
 
     </form>
 
 </body>
+
 </html>
