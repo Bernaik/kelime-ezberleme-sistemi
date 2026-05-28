@@ -25,6 +25,8 @@ Bu proje, İngilizce kelimeleri 6 sefer tekrar prensibi ile öğrenmek için gel
 - Ayarlar sayfası
 - Wordle bulmaca modülü
 - Word Chain hikaye oluşturucu
+- Şifremi unuttum sistemi
+- Word Chain hikaye görselleştirme alanı
 - Modern pembe-beyaz arayüz tasarımı
 
 ## 6 Tekrar Mantığı
@@ -38,3 +40,4 @@ Yanlış cevap verilirse tekrar sayısı sıfırlanır.
 ```bash
 python database.py
 python app.py
+Project collaboration completed.
